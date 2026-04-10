@@ -53,7 +53,7 @@ VITE_SUPABASE_ANON_KEY=<your-anon-key>
 npm run dev
 ```
 
-The app will be available at `http://localhost:3000`.
+The app will be available at `http://localhost:5173`.
 
 ## Backend Setup (Supabase)
 
@@ -106,13 +106,13 @@ Set the Site URL and allowed redirect URLs so OAuth and magic links return to yo
 
 Local development
 
-- Site URL: http://localhost:3000
-- Additional Redirect URLs: http://localhost:3000
+- Site URL: http://localhost:5173
+- Additional Redirect URLs: http://localhost:5173
 
-Production (Cloudflare Pages)
+Production (Vercel)
 
-- Site URL: https://<your-cloudflare-pages-project>.pages.dev
-- Additional Redirect URLs: https://<your-cloudflare-pages-project>.pages.dev
+- Site URL: https://<your-vercel-project>.vercel.app
+- Additional Redirect URLs: https://<your-vercel-project>.vercel.app
 
 Note: The app uses `window.location.origin` for both OAuth and magic link redirects, so the origin must be in the allowed list.
 
