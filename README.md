@@ -32,7 +32,6 @@ Replace these placeholders with real images.
 <a href="https://postimg.cc/bZ0rZ6kk" target="_blank"><img src="https://i.postimg.cc/bZ0rZ6kk/Screenshot-20260131-170620-Chrome.jpg" alt="Screenshot-20260131-170620-Chrome"></a> <a href="https://postimg.cc/zywvydK5" target="_blank"><img src="https://i.postimg.cc/zywvydK5/Screenshot-20260131-170628-Chrome.jpg" alt="Screenshot-20260131-170628-Chrome"></a> <a href="https://postimg.cc/4YRnNCKj" target="_blank"><img src="https://i.postimg.cc/4YRnNCKj/Screenshot-20260131-170631-Chrome.jpg" alt="Screenshot-20260131-170631-Chrome"></a> <a href="https://postimg.cc/YvN0vXYB" target="_blank"><img src="https://i.postimg.cc/YvN0vXYB/Screenshot-20260131-170635-Chrome.jpg" alt="Screenshot-20260131-170635-Chrome"></a><br><br>
 <a href="https://postimg.cc/4YRnNCKr" target="_blank"><img src="https://i.postimg.cc/4YRnNCKr/Screenshot-20260131-170640-Chrome.jpg" alt="Screenshot-20260131-170640-Chrome"></a> <a href="https://postimg.cc/9DHzF3Rh" target="_blank"><img src="https://i.postimg.cc/9DHzF3Rh/Screenshot-20260131-170643-Chrome.jpg" alt="Screenshot-20260131-170643-Chrome"></a> <a href="https://postimg.cc/87gsP8Jk" target="_blank"><img src="https://i.postimg.cc/87gsP8Jk/Screenshot-20260131-170656-Chrome.jpg" alt="Screenshot-20260131-170656-Chrome"></a> <a href="https://postimg.cc/3kQWJMyC" target="_blank"><img src="https://i.postimg.cc/3kQWJMyC/Screenshot-20260131-170659-Chrome.jpg" alt="Screenshot-20260131-170659-Chrome"></a><br><br>
 
-
 ## Local Setup (Frontend)
 
 1. Install dependencies.
@@ -54,7 +53,7 @@ VITE_SUPABASE_ANON_KEY=<your-anon-key>
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`.
+The app will be available at `http://localhost:3000`.
 
 ## Backend Setup (Supabase)
 
@@ -66,6 +65,7 @@ The SQL database schema is stored in Git as `supabase_schema.sql`. You must appl
 4. Confirm the tables, RLS policies, and RPC functions were created.
 
 Important pieces created by the schema:
+
 - Tables: `profiles`, `prompts`, `prompt_secrets`, `unlocks`, `reviews`
 - RLS policies for public reads and secure writes
 - RPC functions: `unlock_prompt`, `update_prompt_rating`
@@ -88,11 +88,13 @@ This app supports Google OAuth and email (password or magic link).
 Fill in the values below in Supabase Auth Providers.
 
 Google OAuth
+
 - Client ID: <your-google-client-id>
 - Client Secret: <your-google-client-secret>
 - Authorized redirect URI: https://<project-ref>.supabase.co/auth/v1/callback
 
 Email
+
 - Provider enabled: yes
 - SMTP: optional (configure if you want custom email sender/domain)
 
@@ -103,12 +105,14 @@ In Supabase go to Authentication -> URL Configuration.
 Set the Site URL and allowed redirect URLs so OAuth and magic links return to your app:
 
 Local development
-- Site URL: http://localhost:5173
-- Additional Redirect URLs: http://localhost:5173
 
-Production (Vercel)
-- Site URL: https://<your-vercel-project>.vercel.app
-- Additional Redirect URLs: https://<your-vercel-project>.vercel.app
+- Site URL: http://localhost:3000
+- Additional Redirect URLs: http://localhost:3000
+
+Production (Cloudflare Pages)
+
+- Site URL: https://<your-cloudflare-pages-project>.pages.dev
+- Additional Redirect URLs: https://<your-cloudflare-pages-project>.pages.dev
 
 Note: The app uses `window.location.origin` for both OAuth and magic link redirects, so the origin must be in the allowed list.
 
@@ -123,22 +127,31 @@ VITE_SUPABASE_ANON_KEY=<your-anon-key>
 
 You can find these in Supabase: Project Settings -> API.
 
-## Deployment (Vercel)
+## Deployment (Cloudflare Pages)
 
-1. Push the repo to GitHub/GitLab/Bitbucket.
-2. Import the project into Vercel.
-3. Framework preset: Vite.
-4. Build command: `npm run build`.
-5. Output directory: `dist`.
-6. Add environment variables in Vercel:
+1. Push the repo to GitHub.
+2. Go to Cloudflare Dashboard -> Pages.
+3. Create a new project and connect your GitHub repo.
+4. Build settings:
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+5. Add environment variables in Pages -> Settings -> Environment variables:
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
-7. Deploy.
+6. Deploy.
 
 After the first deploy:
-- Update Supabase Site URL and Redirect URLs to the Vercel domain.
-- Keep the Google OAuth redirect URI set to the Supabase callback URL:
-  `https://<project-ref>.supabase.co/auth/v1/callback`.
+
+- Update Supabase Site URL and Redirect URLs to the Cloudflare Pages domain (e.g., `https://your-project.pages.dev`).
+- Keep the Google OAuth redirect URI set to the Supabase callback URL: `https://<project-ref>.supabase.co/auth/v1/callback`.
+
+### Alternative: Deploy with Wrangler CLI
+
+If you prefer CLI deployment:
+
+1. Install Wrangler: `npm install -g wrangler`
+2. Login: `wrangler auth login`
+3. Deploy: `wrangler pages deploy dist`
 
 ## Scripts
 
